@@ -13,25 +13,32 @@ git clone git@github.com:dillanjwilding/acme-widget-co.git
 Use Docker to build the image, either with Docker Compose
 
 ```bash
+docker compose up -d
+```
+
+and when you're done
+
+```bash
+docker compose down
+```
+
+to run it without detaching
+
+```bash
 docker compose up --build
 ```
 
-or with Docker
+or without Docker Compose
 
 ```bash
 docker build -t acme-widget-co .
 docker run acme-widget-co
 ```
 
-You can run PHPUnit tests with
+You can run PHPUnit tests and PHPStan with
 
 ```bash
 docker compose run app ./vendor/bin/phpunit --configuration phpunit.xml
-```
-
-and PHPStan with
-
-```bash
 docker compose run app ./vendor/bin/phpstan analyse
 ```
 
@@ -39,10 +46,15 @@ or you can run them from inside the Docker container once it has been built and 
 
 ```bash
 docker container ls 
-docker exec -it <container id> /bin/bash
+docker exec -it <container id> /bin/sh
 ./vendor/bin/phpunit --configuration phpunit.xml
 ./vendor/bin/phpstan analyse
 ```
+
+Note:
+ - To support auto-updates / "hot reloads" (i.e. changes are reflected in Docker container), I rely on the Docker Compose watch with develop keyword which is was released in Docker Compose 2.22.0.
+   - If you use Docker Desktop, this comes bundled with Docker Desktop 4.24.
+ - I was using an image that was could use `/bin/bash` but now that I'm using an `alpine` image, you need to use `/bin/sh`.
 
 ## Project Details 
 
@@ -78,7 +90,7 @@ Implement basket which needs to have the following:
 
 ## Approach
 
-Immediately I knew I needed `Basket`, `Catalog`, and `Product` classes and a way to calculate delivery charge rules and apply applicable offers. I tried to stick to the terminology from the specifications/requirements document with minimal changes (i.e. I was debating renaming `Basket` to `Cart` or `ShoppingCart`, `Offers` to `Deals`, and `Delivery` or `DeliveryCost` to `Shipping` but decided against it).
+Immediately I knew I needed `Basket`, `Catalog`, and `Product` classes and a way to calculate delivery charge rules and apply applicable offers. I tried to stick to the terminology from the specifications/requirements document with minimal changes (i.e. I was debating renaming `Basket` to `Cart` or `ShoppingCart`, `Offers` to `Deals` or `Promotions`, and `Delivery` or `DeliveryCost` to `Shipping` but for the most part decided against it, with the exception of `Catalog` vs `Catalogue`).
 
 When I dug deeper into how these pieces would work together, such as adding `Product` objects to a `Basket`, it became clear we need a quantity so I decided that we needed `Item`. From there, everything seemed to work together but I knew I needed a more long term solution for calculating delivery costs and applying applicable offers without over-engineering a complicated and overly complex solution.
 
@@ -98,11 +110,15 @@ Notes:
    - It makes sense for `Basket` where there not only is a `Basket` class but also a `BasketFactory` convenience class and an `Item` class which probably could have been called `BasketItem` but I thought since it's namespace was `AcmeWidgetCo\Basket\Item` that it was already contextualized.
    - My rationalization for this structure was that I want to make `Interfaces`, `Factory` classes, and other files when they make sense but I also don't want to over-engineer this and make it overly complicated because the instructions said to "demonstrate how your program could grow and why it's a foundation that would help less experienced developers write good code" and part of that is for the code to be legible to someone with less experience with not only some of the more niche aspects of PHP but also complicated logic and project structure (I want to construct guardrails not handcuffs that don't make sense and cause headaches).
 
+## Assumptions
+
+ - 
+
 ## Future Development
 
 The proof of concept implementation didn't require these components but they are usually part of products and services:
 
- - Database
+ - Database and connections
  - Multiple services and/or containers
  - Managing development and production environments, dependencies, etc
    - I may dig into the dependencies a bit to exclude development dependencies like PHPUnit and PHPStan from a production build

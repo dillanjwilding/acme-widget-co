@@ -20,6 +20,7 @@ Thumbs.db
 
 # PHPUnit
 /.phpunit.result.cache
+/.phpunit.cache
 
 # build artifacts
 /build
