@@ -44,19 +44,6 @@ docker exec -it <container id> /bin/bash
 ./vendor/bin/phpstan analyse
 ```
 
-## Structure
-
-- Todo: Update this list with class names and descriptions
-- `Basket` facilitates the organization and function of the "shopping cart".
-- `Item`
-- `Catalog`
-- `Delivery` or `DeliveryCost` (rename, doesn't seem right)
-- `Offer` (also seems like it could use a better name)
-- `Product`
-- `Products` (rename, it's a container or wrapper for products but not a Factory or similar; I've seen these called a lot of different things at different companies Service or Controller were the most popular but I don't want Controller to be confused with something like MVC)
-
-## Approach
-
 ## Project Details 
 
 Implement basket which needs to have the following:
@@ -89,10 +76,33 @@ Implement basket which needs to have the following:
 | R01, G01                | $60.85 |
 | B01, B01, R01, R01, R01 | $98.27 |
 
+## Approach
+
+Immediately I knew I needed `Basket`, `Catalog`, and `Product` classes and a way to calculate delivery charge rules and apply applicable offers. I tried to stick to the terminology from the specifications/requirements document with minimal changes (i.e. I was debating renaming `Basket` to `Cart` or `ShoppingCart`, `Offers` to `Deals`, and `Delivery` or `DeliveryCost` to `Shipping` but decided against it).
+
+When I dug deeper into how these pieces would work together, such as adding `Product` objects to a `Basket`, it became clear we need a quantity so I decided that we needed `Item`. From there, everything seemed to work together but I knew I needed a more long term solution for calculating delivery costs and applying applicable offers without over-engineering a complicated and overly complex solution.
+
+## Structure
+
+ - `Basket` Facilitates the organization and function of the "shopping cart". Manages a collection of `Item` objects which total cost calculation, delivery costs, and apply applicable offers.
+ - `Item` This is a `Product` in a `Basket` or shopping cart and includes a quantity.
+ - `Catalog` Manages a collection of products.
+ - `Delivery` or `DeliveryCost` (rename, doesn't seem right) Calculate delivery costs based on total order price.
+ - `Offer` (also seems like it could use a better name) These are special promotions. There is a condition in which if not met, the discount is not applied. The example given is "buy one get one half price" but only for Red Widgets but my solution should be able to work for other deals as well such as "buy one get one free".
+ - `Product` This is a digital or physical product with a name, code, and price.
+ - `Products` (rename, it's a container or wrapper for products but not a Factory or similar; I've seen these called a lot of different things at different companies Service or Controller were the most popular but I don't want Controller to be confused with something like MVC)
+
+Notes:
+
+ - I'm still not completely sold on the sub-directories inside the `src` directory (i.e. `Basket`, `Catalog`, `Delivery`, etc) as most of them seem redundant with some exceptions.
+   - It makes sense for `Basket` where there not only is a `Basket` class but also a `BasketFactory` convenience class and an `Item` class which probably could have been called `BasketItem` but I thought since it's namespace was `AcmeWidgetCo\Basket\Item` that it was already contextualized.
+   - My rationalization for this structure was that I want to make `Interfaces`, `Factory` classes, and other files when they make sense but I also don't want to over-engineer this and make it overly complicated because the instructions said to "demonstrate how your program could grow and why it's a foundation that would help less experienced developers write good code" and part of that is for the code to be legible to someone with less experience with not only some of the more niche aspects of PHP but also complicated logic and project structure (I want to construct guardrails not handcuffs that don't make sense and cause headaches).
+
 ## Future Development
 
-The proof of concept implementation didn't require but these components are usually part of products and services:
+The proof of concept implementation didn't require these components but they are usually part of products and services:
 
-- Database
-- Multiple services and/or containers
-- Managing development and production environments, dependencies, etc
+ - Database
+ - Multiple services and/or containers
+ - Managing development and production environments, dependencies, etc
+   - I may dig into the dependencies a bit to exclude development dependencies like PHPUnit and PHPStan from a production build
