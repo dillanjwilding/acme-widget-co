@@ -1,0 +1,30 @@
+# OS system files
+.DS_Store
+Thumbs.db
+
+# IDEs
+.idea
+.vscode
+
+# composer
+/vendor
+
+# env files
+.env
+# more
+
+# logs
+*.log
+
+# Docker
+
+# PHPUnit
+/.phpunit.result.cache
+
+# build artifacts
+/build
+/coverage
+
+# cache files
+/cache
+/tmp

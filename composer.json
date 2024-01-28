@@ -1,0 +1,18 @@
+{
+    "name": "dillanjwilding/acme-widget-co",
+    "autoload": {
+        "psr-4": {
+            "AcmeWidgetCo\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Dillan J. Wilding",
+            "email": "dillanjwilding@gmail.com"
+        }
+    ],
+    "require-dev": {
+        "phpunit/phpunit": "^10",
+        "phpstan/phpstan": "^1.10"
+    }
+}
