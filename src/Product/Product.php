@@ -13,6 +13,14 @@ class Product {
 	}
 
 	// todo add getter and setters since I made class properties private, I think I need at least getPrice() for total cost calculation, may not need the others
+	public function getName(): string {
+		return $this->name;
+	}
+
+	public function getCode(): string {
+		return $this->code;
+	}
+
 	public function getPrice(): float {
 		return $this->price;
 	}

@@ -1,7 +1,7 @@
 <?php
 namespace AcmeWidgetCo\Offer;
 
-// @todo rename to OfferManager or OfferService or something
+// todo rename OfferManager, OfferService, OfferCatalog, something else besides Offerings
 class Offerings {
 	private array $offers = [];
 

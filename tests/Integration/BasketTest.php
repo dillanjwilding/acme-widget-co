@@ -2,16 +2,16 @@
 namespace Tests\Integration;
 
 use PHPUnit\Framework\TestCase;
-use AcmeWidgetCo\Products\Products;
+use AcmeWidgetCo\Product\Products;
 use AcmeWidgetCo\Catalog\Catalog;
 use AcmeWidgetCo\Delivery\DeliveryCost;
-use AcmeWidgetCo\Offer\Offer;
+use AcmeWidgetCo\Offer\Offerings;
 use AcmeWidgetCo\Basket\Basket;
 
 final class BasketTest extends TestCase {
 	private Catalog $catalog;
 	private DeliveryCost $delivery;
-	private Offer $offerings;
+	private Offerings $offerings;
 
 	// probably only needs to run once, but this runs before every test
 	// use setUpBeforeClass instead?
@@ -20,11 +20,13 @@ final class BasketTest extends TestCase {
 		$products = new Products();
 		$this->catalog = new Catalog($products);
 		$this->delivery = new DeliveryCost();
-		$this->offerings = new Offer();
+		$this->offerings = new Offerings();
 	}
 
 	/**
 	 * @dataProvider dataProvider
+	 * @covers Basket::addProduct
+	 * @covers Basket::getTotal
 	 */
 	public function testBasketWithProducts($products, $total, $message): void { // include total calculation in name for additional context?
 		// use factory?

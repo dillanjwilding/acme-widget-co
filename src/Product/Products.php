@@ -1,9 +1,7 @@
 <?php
-namespace AcmeWidgetCo\Products;
+namespace AcmeWidgetCo\Product;
 
-use AcmeWidgetCo\Product\Product;
-
-// todo rename
+// todo rename ProductManager, ProductService, ProductCatalog, something else besides Products
 class Products {
 	private array $products = [];
 
