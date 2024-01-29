@@ -19,8 +19,8 @@ class Basket {
 
 	public function addProduct($product_code): void {
 		$product = $this->catalog->getProduct($product_code);
-		if (empty($product)) {
-			// throw exception?
+		if (is_null($product)) {
+			throw new \Exception("Not a valid product code. Catalog contain a product with code: {$product_code}");
 		}
 		if (!isset($this->items[$product_code])) {
 			$this->items[$product_code] = new Item($product);
@@ -54,7 +54,7 @@ class Basket {
 		 * UI/UX.
 		 * todo finalize this code
 		 */
-		$offers = $this->offers->getApplicableOffers($this->items);
+		/*$offers = $this->offers->getApplicableOffers($this->items);
 		if (!empty($this->offers)) {
 			foreach ($offers as $offer) {
 				$total -= $offer->apply(); // this is the offset approach
@@ -72,14 +72,15 @@ class Basket {
 					$total = $offer->apply($total or $this->items); // this is the absolute/reset approach
 				}
 			}
-		}
+		}*/
 
 		// calculate delivery cost
 		$total += $this->delivery->calculateDeliveryCost($total);
 
 		// round to nearest monetary value (i.e. $0.00# doesn't make sense when
 		//  $0.01 is the smallest denomination of currency, at least for USD)
-		// todo round
+		// todo look into this, I'm not sure if should truncate, round down, or round up
+		$total = round($total, 2);
 		return $total;
 	}
 }
