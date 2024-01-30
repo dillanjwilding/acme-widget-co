@@ -6,13 +6,11 @@ use AcmeWidgetCo\Product\Products;
 use AcmeWidgetCo\Catalog\Catalog;
 
 final class CatalogTest extends TestCase {
-	//private Products $products;
-	private Catalog $catalog;
+	private static Catalog $catalog;
 
-	protected function setUp(): void { // todo: confirm only run once
-		parent::setUp();
+	public static function setUpBeforeClass(): void {
 		$products = new Products();
-		$this->catalog = new Catalog($products);
+		self::$catalog = new Catalog($products);
 	}
 
 	/**
@@ -29,7 +27,7 @@ final class CatalogTest extends TestCase {
 	 * @covers Product::getPrice
 	 */
 	public function testGetValidProduct(): void {
-		$product = $this->catalog->getProduct('R01');
+		$product = self::$catalog->getProduct('R01');
 		$this->assertEquals('Red Widget', $product->getName(), 'Catalog getProduct is wrong');
 		$this->assertEquals('R01', $product->getCode(), 'Catalog getProduct is wrong');
 		$this->assertEquals(32.95, $product->getPrice(), 'Catalog getProduct is wrong');
@@ -39,12 +37,12 @@ final class CatalogTest extends TestCase {
 	 * @covers Catalog::getProduct
 	 */
 	public function testGetInvalidProduct(): void {
-		$product = $this->catalog->getProduct('A01');
+		$product = self::$catalog->getProduct('A01');
 		$this->assertNull($product);
 	}
 
 	/*public function testGetAllProducts(): void {
-		$products = $this->catalog->getAllProducts();
+		$products = self::$catalog->getAllProducts();
 		// todo make assertions
 	}*/
 }

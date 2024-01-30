@@ -9,18 +9,15 @@ use AcmeWidgetCo\Offer\Offerings;
 use AcmeWidgetCo\Basket\Basket;
 
 final class BasketTest extends TestCase {
-	private Catalog $catalog;
-	private DeliveryCost $delivery;
-	private Offerings $offerings;
+	private static Catalog $catalog;
+	private static DeliveryCost $delivery;
+	private static Offerings $offerings;
 
-	// probably only needs to run once, but this runs before every test
-	// use setUpBeforeClass instead?
-	protected function setUp(): void { 
-		parent::setUp();
+	public static function setUpBeforeClass(): void {
 		$products = new Products();
-		$this->catalog = new Catalog($products);
-		$this->delivery = new DeliveryCost();
-		$this->offerings = new Offerings();
+		self::$catalog = new Catalog($products);
+		self::$delivery = new DeliveryCost();
+		self::$offerings = new Offerings();
 	}
 
 	/**
@@ -30,14 +27,14 @@ final class BasketTest extends TestCase {
 	 */
 	public function testBasketWithProducts($products, $total, $message): void { // include total calculation in name for additional context?
 		// use factory?
-		$basket = new Basket($this->catalog, $this->delivery, $this->offerings);
+		$basket = new Basket(self::$catalog, self::$delivery, self::$offerings);
 		foreach ($products as $product) {
 			$basket->addProduct($product);
 		}
 		$this->assertEquals($total, $basket->getTotal(), $message);
 	}
 
-	public static function dataProvider() {
+	public static function dataProvider(): array {
 		return [
 			[
 				'products' => ['B01', 'G01'],

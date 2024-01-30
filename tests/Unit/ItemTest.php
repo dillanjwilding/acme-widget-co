@@ -7,47 +7,47 @@ use AcmeWidgetCo\Product\Products;
 use AcmeWidgetCo\Basket\Item;
 
 final class ItemTest extends TestCase {
-	private Item $item;
-	private Product $product;
+	private static Item $item;
+	private static Product $product;
 
-	protected function setUp(): void { // todo: confirm only run once
-		parent::setUp();
+	public static function setUpBeforeClass(): void {
 		$products = new Products();
-		$this->product = $products->getProduct('R01');
-		$this->item = new Item($this->product);
+		self::$product = $products->getProduct('R01');
+		self::$item = new Item(self::$product);
 	}
 
 	/**
 	 * @covers Item::getProduct
 	 */
-	public function testGetProduct() {
-		$product = $this->item->getProduct();
-		// todo compare $product and $this->product
+	public function testGetProduct(): void {
+		$product = self::$item->getProduct();
+		//$this->assertObjectEquals(self::$product, $product, '');
+		$this->assertThat(self::$product, $this->equalTo($product));
 	}
 
 	/**
 	 * @covers Item::getQuantity
 	 */
-	public function testGetQuantity() {
-		$quantity = $this->item->getQuantity();
+	public function testGetQuantity(): void {
+		$quantity = self::$item->getQuantity();
 		$this->assertEquals(1, $quantity, 'Item->getQuantity()');
 	}
 
 	/**
 	 * @covers Item::increaseQuantity
 	 */
-	public function testIncreaseQuantity() {
-		$this->item->increaseQuantity();
-		$quantity = $this->item->getQuantity();
+	public function testIncreaseQuantity(): void {
+		self::$item->increaseQuantity();
+		$quantity = self::$item->getQuantity();
 		$this->assertEquals(2, $quantity, 'Item->increaseQuantity()');
 	}
 
 	/**
 	 * @covers Item::decreaseQuantity
 	 */
-	public function testDecreaseQuantity() {
-		$this->item->decreaseQuantity();
-		$quantity = $this->item->getQuantity();
+	public function testDecreaseQuantity(): void {
+		self::$item->decreaseQuantity();
+		$quantity = self::$item->getQuantity();
 		$this->assertEquals(1, $quantity, 'Item->decreaseQuantity()');
 	}
 

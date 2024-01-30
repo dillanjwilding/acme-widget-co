@@ -3,21 +3,21 @@ namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 use AcmeWidgetCo\Product\Products;
+use AcmeWidgetCo\Product\Product;
 
 final class ProductsTest extends TestCase {
-	private Products $products;
+	private static Products $products;
 
-	protected function setUp(): void { // todo: confirm only run once
-		parent::setUp();
-		$this->products = new Products();
+	public static function setUpBeforeClass(): void {
+		self::$products = new Products();
 	}
 
 	/**
 	 * @covers Products::getProduct
 	 */
-	public function testGetProduct() {
-		$product = $this->products->getProduct('R01');
-		// todo check instance of Product
+	public function testGetProduct(): void {
+		$product = self::$products->getProduct('R01');
+		$this->assertInstanceOf(Product::class, $product);
 		$this->assertEquals('Red Widget', $product->getName());
 		// don't really need to test getPrice() since ProductTest already does
 	}
@@ -25,8 +25,11 @@ final class ProductsTest extends TestCase {
 	/**
 	 * @covers Products::getAllProducts
 	 */
-	public function testGetAllProducts() {
-		$products = $this->products->getAllProducts();
-		// assert array of Product objects
+	public function testGetAllProducts(): void {
+		$products = self::$products->getAllProducts();
+		$this->assertIsArray($products);
+		foreach ($products as $product) {
+			$this->assertInstanceOf(Product::class, $product);
+		}
 	}
 }
