@@ -12,6 +12,7 @@ namespace AcmeWidgetCo\Offer;
 class Offer {
 	private $start_date;
 	private $end_date;
+	// I had thought this would be flexible treating $condition like a function but I think it'd be more difficult to store that in the database than just to restructure to be more rigid but more easily stored
 	private $condition;
 	private $discount;
 

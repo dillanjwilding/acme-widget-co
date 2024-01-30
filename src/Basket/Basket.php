@@ -3,15 +3,16 @@ namespace AcmeWidgetCo\Basket;
 
 use AcmeWidgetCo\Catalog\Catalog;
 use AcmeWidgetCo\Delivery\DeliveryCost;
+use AcmeWidgetCo\Offer\Offerings;
 
 class Basket {
 	private Catalog $catalog;
 	private DeliveryCost $delivery;
-	private $offers;
+	private Offerings $offers;
 	private array $items;
 
 	// todo add parameter types
-	public function __construct(Catalog $catalog, DeliveryCost $delivery, $offers) {
+	public function __construct(Catalog $catalog, DeliveryCost $delivery, Offerings $offers) {
 		$this->catalog = $catalog;
 		$this->delivery = $delivery;
 		$this->offers = $offers;
@@ -37,7 +38,6 @@ class Basket {
 			$total += $item->getProduct()->getPrice() * $item->getQuantity();
 		}
 
-		// apply special offers/deals/promotions
 		/**
 		 * two approaches:
 		 *   1. get only the applicable offers and then apply them
@@ -73,14 +73,15 @@ class Basket {
 				}
 			}
 		}*/
+		// apply special offers/deals/promotions
+		$total -= $this->offers->applyOffers($this->items);
 
 		// calculate delivery cost
 		$total += $this->delivery->calculateDeliveryCost($total);
 
-		// round to nearest monetary value (i.e. $0.00# doesn't make sense when
-		//  $0.01 is the smallest denomination of currency, at least for USD)
-		// todo look into this, I'm not sure if should truncate, round down, or round up
-		$total = round($total, 2);
+		// round to nearest monetary value (i.e. $0.01 is the smallest denomination of currency, at least for USD)
+		// normally I'd use the default PHP_ROUND_HALF_UP but that caused tests to fail
+		$total = round($total, 2, PHP_ROUND_HALF_DOWN);
 		return $total;
 	}
 }

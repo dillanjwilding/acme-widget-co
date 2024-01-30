@@ -12,4 +12,5 @@ final class DeliveryCostTest extends TestCase {
 	public function testPlaceholder() {
 		$this->assertTrue(true);
 	}
+	// todo write test that ensures that there is a delivery cost tier with min of 0
 }

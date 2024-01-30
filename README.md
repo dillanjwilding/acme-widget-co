@@ -90,9 +90,13 @@ Implement basket which needs to have the following:
 
 ## Approach
 
-Immediately I knew I needed `Basket`, `Catalog`, and `Product` classes and a way to calculate delivery charge rules and apply applicable offers. I tried to stick to the terminology from the specifications/requirements document with minimal changes (i.e. I was debating renaming `Basket` to `Cart` or `ShoppingCart`, `Offers` to `Deals` or `Promotions`, and `Delivery` or `DeliveryCost` to `Shipping` but for the most part decided against it, with the exception of `Catalog` vs `Catalogue`).
+Delivering products and services in a professional software setting is a tradeoff between the best/ideal approach that takes more time and effort and a minimal viable version that provides the functionality, thus I find it often a good practice to start with a solid foundation by getting something working that is generally based on sound logic with good practices, then iterate to make incremental improvements. Thus, I started by coming up with a plan, then I got the basics working, then I iterated on my implementation to make improvements. As a side note, it's often easier to show progress and what needs more focus and attention when you get something functional and working first.
 
-When I dug deeper into how these pieces would work together, such as adding `Product` objects to a `Basket`, it became clear we need a quantity so I decided that we needed `Item`. From there, everything seemed to work together but I knew I needed a more long term solution for calculating delivery costs and applying applicable offers without over-engineering a complicated and overly complex solution.
+Immediately I knew I needed `Basket`, `Catalog`, and `Product` classes and a way to calculate delivery charge rules and apply applicable offers. I tried to stick to the terminology from the specifications/requirements document with minimal changes (i.e. I was debating renaming `Basket` to `Cart` or `ShoppingCart`, `Offers` to `Deals` or `Promotions`, and `Delivery` to `Shipping` but for the most part decided against it, with the exception of `Catalog` vs `Catalogue`).
+
+When I dug deeper into how these pieces would work together, such as adding `Product` objects to a `Basket`, it became clear I needed a quantity associated to each `Product` so I decided that it was necessary to create an `Item` class. I created `Offerings` (need to rename) and `Products` (need to rename) as convenient ways to manage dependencies, `Offer` and `Product` respectively.
+
+And that is where I got stuck. I had thought about different ways to structure and organize delivery cost calculation and handling offers and they each seem to come with advantages and disadvantages but none seemed ideal. I tried to start simple, then think of how to make it a more long term, scalable solution. I think I figured out delivery cost calculation to some extent, there are definitely ways to improve it, but I'm not happy with my solution/implementation for applying applicable offers. I'm trying to not over-engineer a complicated and overly complex solution but there just seems like there should be a better way. 
 
 ## Structure
 

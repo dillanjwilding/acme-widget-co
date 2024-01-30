@@ -30,9 +30,9 @@ final class CatalogTest extends TestCase {
 	 */
 	public function testGetValidProduct(): void {
 		$product = $this->catalog->getProduct('R01');
-		$this->assertEquals($product->getName(), 'Red Widget', 'Catalog getProduct is wrong');
-		$this->assertEquals($product->getCode(), 'R01', 'Catalog getProduct is wrong');
-		$this->assertEquals($product->getPrice(), 32.95, 'Catalog getProduct is wrong');
+		$this->assertEquals('Red Widget', $product->getName(), 'Catalog getProduct is wrong');
+		$this->assertEquals('R01', $product->getCode(), 'Catalog getProduct is wrong');
+		$this->assertEquals(32.95, $product->getPrice(), 'Catalog getProduct is wrong');
 	}
 
 	/**

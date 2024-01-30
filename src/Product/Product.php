@@ -9,6 +9,7 @@ class Product {
 	public function __construct(string $name, string $code, float $price) {
 		$this->name = $name;
 		$this->code = $code;
+		// possibly data validation, verify price only has 2 digits right of the decimal point or round to it
 		$this->price = $price;
 	}
 

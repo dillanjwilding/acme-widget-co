@@ -6,13 +6,15 @@ use AcmeWidgetCo\Product\Product;
 use AcmeWidgetCo\Basket\Item;
 
 final class ProductTest extends TestCase {
-	protected function setUp(): void { // todo: confirm only run once
-		parent::setUp();
-	}
-
-	// test product creation
-	// test getter and setter functions
-	public function testPlaceholder() {
-		$this->assertTrue(true);
+	/**
+	 * @covers Product::getName
+	 * @covers Product::getCode
+	 * @covers Product::getPrice
+	 */
+	public function testProductMethods() {
+		$product = new Product('Test', '01', 12.34);
+		$this->assertEquals('Test', $product->getName());
+		$this->assertEquals('01', $product->getCode());
+		$this->assertEquals(12.34, $product->getPrice());
 	}
 }

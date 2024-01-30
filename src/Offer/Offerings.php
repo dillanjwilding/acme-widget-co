@@ -6,17 +6,18 @@ class Offerings {
 	private array $offers = [];
 
 	public function __construct() {
+		// should be able to load active offers from the database checking if today's date is between the start and end date
 		$this->offers = [
-			new Offer()
+			new BuyR01GetR01HalfPrice()
 		];
 	}
 
-	public function applyOffer(array $products) {
+	public function applyOffers(array $items) {
 		$offset = 0;
 		if (!empty($this->offers)) {
 			foreach ($this->offers as $offer) {
-				if ($offer->isValid($products)) {
-					$offset += $offer->applyOffer($products);
+				if ($offer->isValid($items)) {
+					$offset += $offer->calculateDiscount($items);
 				}
 			}
 		}

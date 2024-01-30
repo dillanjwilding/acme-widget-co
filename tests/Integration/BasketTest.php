@@ -34,7 +34,7 @@ final class BasketTest extends TestCase {
 		foreach ($products as $product) {
 			$basket->addProduct($product);
 		}
-		$this->assertEquals($basket->getTotal(), $total, $message);
+		$this->assertEquals($total, $basket->getTotal(), $message);
 	}
 
 	public static function dataProvider() {

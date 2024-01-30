@@ -24,15 +24,16 @@ class Item {
 		$this->quantity++;
 	}
 
+	// if quantity is 0, should probably remove Item from Basket
 	public function decreaseQuantity(): void {
 		if ($this->quantity > 1) {
 			$this->quantity--;
 		}
 	}
 
-	public function setQuantity($quantity): void {
+	/*public function setQuantity($quantity): void {
 		if ($quantity > 0) {
 			$this->quantity = $quantity;
 		}
-	}
+	}*/
 }

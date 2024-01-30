@@ -27,7 +27,7 @@ class DeliveryCost {
 	public function calculateDeliveryCost($orderTotal) {
 		// sort array of the different tiers and their associated costs in descending order (highest first) so that the first lower limit/boundary threshold the total is above will be the tier that applies (reword) rather than having a lower and upper bounds
 		usort($this->tiers, function($a, $b) {
-			return $a['min'] <=> $b['min'];
+			return $b['min'] <=> $a['min'];
 		});
 
 		if (!empty($this->tiers)) {
