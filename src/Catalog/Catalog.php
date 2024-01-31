@@ -1,13 +1,15 @@
 <?php
 namespace AcmeWidgetCo\Catalog;
 
-use AcmeWidgetCo\Product\Products;
+use AcmeWidgetCo\Product\ProductService;
 use AcmeWidgetCo\Product\Product;
 
-// may want to add a Factory where you don't have to pass products in, but then I'd have to figure out the mechanism noted in the other comment.
+/** 
+ * Transitioned to storing and using ProductService object because I think there's a case where if a Catalog object was created with a ProductService and immediately we get the Products, the data could be outdated and stale by time of use.
+ */
 class Catalog {
-	/** @var array<string, Product> */
-	private array $products = [];
+	private ProductService $productService;
+	//private array $products = [];
 
 	/**
 	 * I didn't use a static array so multiple catalogs could be instantiated
@@ -20,29 +22,22 @@ class Catalog {
 	 * I didn't want to use $product->getProduct($code), opting to batch those
 	 * requests.
 	 */
-	public function __construct(Products $products) {
+	public function __construct(ProductService $productService) {
 		// @todo: rename products to something else as it's not an array of Product objects but a product manager
-		$this->products = $products->getAllProducts(); 
+		$this->productService = $productService;
+		//$this->products = $this->productService->getAllProducts(); 
 	}
 
-	public function getProduct(string $code): ?Product {
-		return $this->products[$code] ?? null;
+	public function getProduct(string $code): Product {
+		return $this->productService->getProduct($code);
+		//return $this->products[$code] ?? null;
 	}
 
 	/* There are other functions I could add but right now there is no use-case:
 
-	// this would be able to be used for batching getProduct($code) requests
-	getProducts(array $codes): array {
-		// there's probably a better way to do this but I didn't think about it too hard since I wasn't using it
-		$products = [];
-		foreach ($codes as $code) {
-			$products[$code] = $this->products[$code];
-		}
-		return $products;
-	}
-
 	// getting all products in the catalog could be useful especially when introducing a UI but for this project it isn't necessary (yet)
 	public function getAllProducts(): array {
-		return $this->products;
+		return $this->productService->getAllProducts();
+		//return $this->products;
 	}*/
 }

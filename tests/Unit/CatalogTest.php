@@ -2,7 +2,7 @@
 namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
-use AcmeWidgetCo\Product\Products;
+use AcmeWidgetCo\Product\ProductService;
 use AcmeWidgetCo\Product\Product;
 use AcmeWidgetCo\Catalog\Catalog;
 
@@ -10,8 +10,8 @@ final class CatalogTest extends TestCase {
 	private static Catalog $catalog;
 
 	public static function setUpBeforeClass(): void {
-		$products = new Products();
-		self::$catalog = new Catalog($products);
+		$productService = new ProductService();
+		self::$catalog = new Catalog($productService);
 	}
 
 	/**
@@ -39,8 +39,8 @@ final class CatalogTest extends TestCase {
 	 * @covers Catalog::getProduct
 	 */
 	public function testGetInvalidProduct(): void {
+		$this->expectException(\Exception::class);
 		$product = self::$catalog->getProduct('A01');
-		$this->assertNull($product);
 	}
 
 	/*public function testGetAllProducts(): void {

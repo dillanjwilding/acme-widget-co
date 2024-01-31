@@ -3,7 +3,7 @@ namespace AcmeWidgetCo\Basket;
 
 use AcmeWidgetCo\Catalog\Catalog;
 use AcmeWidgetCo\Delivery\DeliveryCost;
-use AcmeWidgetCo\Offer\Offerings;
+use AcmeWidgetCo\Offer\OfferService;
 
 /**
  * Convenience Factory class so that instantiating Basket objects don't need to
@@ -12,10 +12,10 @@ use AcmeWidgetCo\Offer\Offerings;
  */
 class BasketFactory {
 	// todo $deliveryType should be optional
-	public static function create(Catalog $catalog, string $deliveryType): Basket {
+	public static function create(Catalog $catalog, string $deliveryType = 'standard'): Basket {
 		// todo load/lookup $charge_rules and $offers
-		$delivery = new DeliveryCost($deliveryType);
-		$offerings = new Offerings();
+		$deliveryCost = new DeliveryCost($deliveryType);
+		$offerService = new OfferService();
 		/**
 		 * I need to connect these concepts:
 		 *  - While it "works" because $delivery is an object with a calculate
@@ -27,6 +27,6 @@ class BasketFactory {
 		 * again, it'd be nice to have more structure facilitating 
 		 * deals/promotions.
 		 */
-		return new Basket($catalog, $delivery, $offerings);
+		return new Basket($catalog, $deliveryCost, $offerService);
 	}
 }

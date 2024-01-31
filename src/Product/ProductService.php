@@ -1,8 +1,7 @@
 <?php
 namespace AcmeWidgetCo\Product;
 
-// todo rename ProductManager, ProductService, ProductCatalog, something else besides Products
-class Products {
+class ProductService {
 	/** @var array<string, Product> */
 	private array $products = [];
 

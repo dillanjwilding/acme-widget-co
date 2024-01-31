@@ -2,34 +2,37 @@
 namespace Tests\Integration;
 
 use PHPUnit\Framework\TestCase;
-use AcmeWidgetCo\Product\Products;
+use AcmeWidgetCo\Product\ProductService;
 use AcmeWidgetCo\Catalog\Catalog;
-use AcmeWidgetCo\Delivery\DeliveryCost;
-use AcmeWidgetCo\Offer\Offerings;
 use AcmeWidgetCo\Basket\Basket;
+use AcmeWidgetCo\Basket\BasketFactory;
 
 // todo while this works, I probably want to use BasketFactory instead or possibly should test both
 final class BasketTest extends TestCase {
 	private static Catalog $catalog;
-	private static DeliveryCost $delivery;
-	private static Offerings $offerings;
 
 	public static function setUpBeforeClass(): void {
-		$products = new Products();
-		self::$catalog = new Catalog($products);
-		self::$delivery = new DeliveryCost();
-		self::$offerings = new Offerings();
+		$productService = new ProductService();
+		self::$catalog = new Catalog($productService);
 	}
 
 	/**
+	 * @covers BasketFactory::create
+	 */
+	public function testBasket(): void {
+		$basket = BasketFactory::create(self::$catalog);
+		$this->assertInstanceOf(Basket::class, $basket);
+	}
+
+	/**
+	 * @depends testBasket
 	 * @param array<string> $products
 	 * @dataProvider productDataProvider
 	 * @covers Basket::addProduct
 	 * @covers Basket::getTotal
 	 */
-	public function testBasketWithProducts(array $products, float $total, string $message): void { // include total calculation in name for additional context?
-		// use factory?
-		$basket = new Basket(self::$catalog, self::$delivery, self::$offerings);
+	public function testGetTotalWithProducts(array $products, float $total, string $message): void {
+		$basket = BasketFactory::create(self::$catalog);
 		foreach ($products as $product) {
 			$basket->addProduct($product);
 		}

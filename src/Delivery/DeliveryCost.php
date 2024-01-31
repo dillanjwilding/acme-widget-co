@@ -13,12 +13,12 @@ namespace AcmeWidgetCo\Delivery;
  */
 class DeliveryCost {
 	/** @var array<array<string, float>> */
-	private array $tiers = [];
+	private array $deliveryOptions = [];
 
 	public function __construct(string $type = 'standard') {
 		// load data for $type, but since I don't have a database and can't do that, $tiers is all the data and we're only loading the particular data we want
 		// todo test boundaries
-		$tiers = [
+		$deliveryOptions = [
 			'standard' => [
 				['min' => 0, 'cost' => 4.95],
 				['min' => 50, 'cost' => 2.95],
@@ -26,22 +26,22 @@ class DeliveryCost {
 			]
 			// 'expedited' => [], ...
 		];
-		if (!isset($tiers[$type])) {
+		if (!isset($deliveryOptions[$type])) {
 			throw new \Exception("'{$type}' is not a valid Delivery type.");
 		}
-		$this->tiers = $tiers[$type];
+		$this->deliveryOptions = $deliveryOptions[$type];
 	}
 
-	public function calculateDeliveryCost(float $orderTotal): float {
+	public function calculate(float $orderTotal): float {
 		// sort array of the different tiers and their associated costs in descending order (highest first) so that the first lower limit/boundary threshold the total is above will be the tier that applies (reword) rather than having a lower and upper bounds
-		usort($this->tiers, function($a, $b) {
+		usort($this->deliveryOptions, function($a, $b) {
 			return $b['min'] <=> $a['min'];
 		});
 
-		if (!empty($this->tiers)) {
-			foreach ($this->tiers as $tier) {
-				if ($orderTotal >= $tier['min']) {
-					return $tier['cost'];
+		if (!empty($this->deliveryOptions)) {
+			foreach ($this->deliveryOptions as $deliveryOption) {
+				if ($orderTotal >= $deliveryOption['min']) {
+					return $deliveryOption['cost'];
 				}
 			}
 		}

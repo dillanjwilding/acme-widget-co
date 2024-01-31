@@ -3,7 +3,7 @@ namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 use AcmeWidgetCo\Product\Product;
-use AcmeWidgetCo\Product\Products;
+//use AcmeWidgetCo\Product\ProductService;
 use AcmeWidgetCo\Basket\Item;
 
 final class ItemTest extends TestCase {
@@ -11,8 +11,9 @@ final class ItemTest extends TestCase {
 	private static Product $product;
 
 	public static function setUpBeforeClass(): void {
-		$products = new Products();
-		self::$product = $products->getProduct('R01');
+		//$productService = new ProductService();
+		//self::$product = $productService->getProduct('R01');
+		self::$product = new Product('Red Widget', 'R01', 32.95);
 		self::$item = new Item(self::$product);
 	}
 

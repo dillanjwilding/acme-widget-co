@@ -3,8 +3,7 @@ namespace AcmeWidgetCo\Offer;
 
 use AcmeWidgetCo\Basket\Item;
 
-// todo rename OfferManager, OfferService, OfferCatalog, something else besides Offerings
-class Offerings {
+class OfferService {
 	/** @var array<Offer> */
 	private array $offers = [];
 
@@ -24,12 +23,10 @@ class Offerings {
 		}
 	}
 
-	// unless it adjusts $total, probably shouldn't be called applyOffers
-	// maybe calculateTotalDiscount()
 	/**
 	 * @param array<string, Item> $items
 	 */
-	public function applyOffers(array $items): float {
+	public function calculateTotalDiscount(array $items): float {
 		$offset = 0;
 		if (!empty($this->offers)) {
 			foreach ($this->offers as $offer) {

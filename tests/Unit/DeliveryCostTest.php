@@ -11,7 +11,7 @@ final class DeliveryCostTest extends TestCase {
 	public function testValidDeliveryCost(): void {
 		$deliveryCost = new DeliveryCost();
 		$this->assertInstanceOf(DeliveryCost::class, $deliveryCost);
-		// ->calculateDeliveryCost() ?
+		// ->calculate() ?
 	}
 
 	/**

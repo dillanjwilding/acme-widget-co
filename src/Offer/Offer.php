@@ -47,6 +47,11 @@ class Offer {
 					&& isset($items[$this->discounted_product])
 					&& $items[$this->discounted_product]->getQuantity() >= 1; // $this->discounted_product_quantity
 			}
+		} else if (empty($this->offer_product) && empty($this->discounted_product)) {
+			// outside the scope of the project but stores have buy one get one half off deals or buy one get one free where the discount is applied to the cheaper item
+			// return true if more than two products (not items) in basket (could be an item with quantity 2 or two items of different products with quantity more than 1)
+		} else {
+			
 		}
 		// todo add other conditions to support other offers
 		//  - e.g. generic buy one get one (any product), discount_rate is applied to the product of lesser value
@@ -60,5 +65,9 @@ class Offer {
 		$item = $items[$this->discounted_product];
 		$discount = floor($item->getQuantity() / 2) * $item->getProduct()->getPrice() * $this->discount_rate;
 		return $discount;
+		/**
+		 * // assumes quantity 1, todo figure out an abstract way to calculate how many times this offer applies
+		 * return min($items[$this->offer_product]->getPrice(), $items[$this->discounted_product]->getPrice()) * $this->discount_rate;
+		 */
 	}
 }

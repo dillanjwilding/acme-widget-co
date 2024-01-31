@@ -2,10 +2,10 @@
 namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
-use AcmeWidgetCo\Product\Products;
+use AcmeWidgetCo\Product\ProductService;
 use AcmeWidgetCo\Catalog\Catalog;
 use AcmeWidgetCo\Delivery\DeliveryCost;
-use AcmeWidgetCo\Offer\Offerings;
+use AcmeWidgetCo\Offer\OfferService;
 use AcmeWidgetCo\Basket\Basket;
 
 final class BasketTest extends TestCase {
@@ -13,11 +13,11 @@ final class BasketTest extends TestCase {
 	 * @covers Basket
 	 */
 	public function testBasket(): void {
-		$products = new Products();
-		$catalog = new Catalog($products);
-		$delivery = new DeliveryCost();
-		$offerings = new Offerings();
-		$basket = new Basket($catalog, $delivery, $offerings);
+		$productService = new ProductService();
+		$catalog = new Catalog($productService);
+		$deliveryCost = new DeliveryCost();
+		$offerService = new OfferService();
+		$basket = new Basket($catalog, $deliveryCost, $offerService);
 		$this->assertInstanceOf(Basket::class, $basket);
 	}
 }
