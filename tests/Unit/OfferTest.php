@@ -5,7 +5,11 @@ use PHPUnit\Framework\TestCase;
 use AcmeWidgetCo\Offer\Offer;
 
 final class OfferTest extends TestCase {
-	public function testPlaceholder(): void {
-		$this->assertTrue(true);
+	/**
+	 * @covers Offer
+	 */
+	public function testOffer(): void {
+		$offer = new Offer(0.5, 'R01', 'R01');
+		$this->assertInstanceOf(Offer::class, $offer);
 	}
 }

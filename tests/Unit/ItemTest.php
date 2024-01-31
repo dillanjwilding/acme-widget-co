@@ -21,11 +21,12 @@ final class ItemTest extends TestCase {
 	 */
 	public function testGetProduct(): void {
 		$product = self::$item->getProduct();
-		//$this->assertObjectEquals(self::$product, $product, '');
+		$this->assertInstanceOf(Product::class, $product);
 		$this->assertThat(self::$product, $this->equalTo($product));
 	}
 
 	/**
+	 * @depends testGetProduct
 	 * @covers Item::getQuantity
 	 */
 	public function testGetQuantity(): void {
@@ -34,6 +35,7 @@ final class ItemTest extends TestCase {
 	}
 
 	/**
+	 * @depends testGetQuantity
 	 * @covers Item::increaseQuantity
 	 */
 	public function testIncreaseQuantity(): void {
@@ -43,6 +45,7 @@ final class ItemTest extends TestCase {
 	}
 
 	/**
+	 * @depends testIncreaseQuantity
 	 * @covers Item::decreaseQuantity
 	 */
 	public function testDecreaseQuantity(): void {

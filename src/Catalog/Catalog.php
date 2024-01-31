@@ -6,6 +6,7 @@ use AcmeWidgetCo\Product\Product;
 
 // may want to add a Factory where you don't have to pass products in, but then I'd have to figure out the mechanism noted in the other comment.
 class Catalog {
+	/** @var array<string, Product> */
 	private array $products = [];
 
 	/**

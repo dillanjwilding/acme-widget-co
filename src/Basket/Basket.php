@@ -9,6 +9,7 @@ class Basket {
 	private Catalog $catalog;
 	private DeliveryCost $delivery;
 	private Offerings $offers;
+	/** @var array<string, Item> */
 	private array $items;
 
 	// todo add parameter types
@@ -18,11 +19,12 @@ class Basket {
 		$this->offers = $offers;
 	}
 
-	public function addProduct($product_code): void {
+	public function addProduct(string $product_code): void {
 		$product = $this->catalog->getProduct($product_code);
 		if (is_null($product)) {
 			throw new \Exception("Not a valid product code. Catalog contain a product with code: {$product_code}");
 		}
+		// could default quantity to 0 and always increase it by 1 but I think for new developers this logic will be more straight forward; if there isn't one add an item with quantity 1, otherwise increase quantity by 1
 		if (!isset($this->items[$product_code])) {
 			$this->items[$product_code] = new Item($product);
 		} else {

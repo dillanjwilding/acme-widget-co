@@ -1,8 +1,9 @@
 <?php declare(strict_types=1);
-namespace Tests\Integration;
+namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
 use AcmeWidgetCo\Product\Products;
+use AcmeWidgetCo\Product\Product;
 use AcmeWidgetCo\Catalog\Catalog;
 
 final class CatalogTest extends TestCase {
@@ -28,6 +29,7 @@ final class CatalogTest extends TestCase {
 	 */
 	public function testGetValidProduct(): void {
 		$product = self::$catalog->getProduct('R01');
+		$this->assertInstanceOf(Product::class, $product);
 		$this->assertEquals('Red Widget', $product->getName(), 'Catalog getProduct is wrong');
 		$this->assertEquals('R01', $product->getCode(), 'Catalog getProduct is wrong');
 		$this->assertEquals(32.95, $product->getPrice(), 'Catalog getProduct is wrong');

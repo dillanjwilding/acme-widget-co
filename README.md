@@ -8,12 +8,13 @@ Clone the project with git
 
 ```bash
 git clone git@github.com:dillanjwilding/acme-widget-co.git
+cd acme-widget-co
 ```
 
 Use Docker to build the image, either with Docker Compose
 
 ```bash
-docker compose up -d
+docker compose up --build -d
 ```
 
 and when you're done
@@ -22,39 +23,35 @@ and when you're done
 docker compose down
 ```
 
-to run it without detaching
+You can run PHPUnit tests and PHPStan with these commands
 
 ```bash
-docker compose up --build
+docker compose run app ./vendor/bin/phpunit --configuration phpunit.xml
+docker compose run app ./vendor/bin/phpstan analyse -c phpstan.neon --memory-limit 512M
 ```
 
-or without Docker Compose
+Here are some alternative commands
 
 ```bash
 docker build -t acme-widget-co .
 docker run acme-widget-co
 ```
 
-You can run PHPUnit tests and PHPStan with
-
-```bash
-docker compose run app ./vendor/bin/phpunit --configuration phpunit.xml
-docker compose run app ./vendor/bin/phpstan analyse
-```
-
-or you can run them from inside the Docker container once it has been built and is running
-
 ```bash
 docker container ls 
 docker exec -it <container id> /bin/sh
+```
+
+```bash
+composer install
 ./vendor/bin/phpunit --configuration phpunit.xml
-./vendor/bin/phpstan analyse
+./vendor/bin/phpstan analyse -c phpstan.neon
 ```
 
 Note:
  - To support auto-updates / "hot reloads" (i.e. changes are reflected in Docker container), I rely on the Docker Compose watch with develop keyword which is was released in Docker Compose 2.22.0.
    - If you use Docker Desktop, this comes bundled with Docker Desktop 4.24.
- - I was using an image that was could use `/bin/bash` but now that I'm using an `alpine` image, you need to use `/bin/sh`.
+ - I was using an image that we could use `/bin/bash` but now that I'm using an `alpine` image, you need to use `/bin/sh`.
 
 ## Project Details 
 
@@ -98,6 +95,10 @@ When I dug deeper into how these pieces would work together, such as adding `Pro
 
 And that is where I got stuck. I had thought about different ways to structure and organize delivery cost calculation and handling offers and they each seem to come with advantages and disadvantages but none seemed ideal. I tried to start simple, then think of how to make it a more long term, scalable solution. I think I figured out delivery cost calculation to some extent, there are definitely ways to improve it, but I'm not happy with my solution/implementation for applying applicable offers. I'm trying to not over-engineer a complicated and overly complex solution but there just seems like there should be a better way. 
 
+Decided against changing `DeliveryCost` to an interface or parent class and implementing `StandardDelivery` and `ExpeditedDelivery` because it created code overhead with no upside (didn't add functionality, didn't help with scaling or usability). Besides naming, I think I'm fine with this implementation.
+
+I'm still not happy with `Offer`.
+
 ## Structure
 
  - `Basket` Facilitates the organization and function of the "shopping cart". Manages a collection of `Item` objects which total cost calculation, delivery costs, and apply applicable offers.
@@ -113,10 +114,13 @@ Notes:
  - I'm still not completely sold on the sub-directories inside the `src` directory (i.e. `Basket`, `Catalog`, `Delivery`, etc) as most of them seem redundant with some exceptions.
    - It makes sense for `Basket` where there not only is a `Basket` class but also a `BasketFactory` convenience class and an `Item` class which probably could have been called `BasketItem` but I thought since it's namespace was `AcmeWidgetCo\Basket\Item` that it was already contextualized.
    - My rationalization for this structure was that I want to make `Interfaces`, `Factory` classes, and other files when they make sense but I also don't want to over-engineer this and make it overly complicated because the instructions said to "demonstrate how your program could grow and why it's a foundation that would help less experienced developers write good code" and part of that is for the code to be legible to someone with less experience with not only some of the more niche aspects of PHP but also complicated logic and project structure (I want to construct guardrails not handcuffs that don't make sense and cause headaches).
+ - I think that `Offer` should have a start date and end date, possibly a display ID or name, etc but it seems overly complicated for a proof of concept so I kept it on the simple side.
 
 ## Assumptions
 
- - 
+ - To make it so that we wouldn't need a new class for every new offer as that has more overhead than adding a record to a database, my implementation geared more toward that type of reuse but it has limitations.
+   - One of my previous iterations I was thinking about the concept of `$condition` and `$discount` being functions. While that was very flexible, I imagined needing to write code for every new offer and thought that was going to be a burden on developers whereas building a system based off the database and administration tools for an internal user to manage the deals would be less overhead.
+ - If there is an `Offer` "record", it is active. Normally we'd want to have a way to deactivate an offer, with this implementation you'd have to delete the record.
 
 ## Future Development
 

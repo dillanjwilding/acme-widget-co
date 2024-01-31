@@ -6,8 +6,3 @@ services:
       target: development
     volumes:
       - .:/app
-    develop:
-      watch:
-        - action: sync
-          path: ./src
-          target: /var/www/html

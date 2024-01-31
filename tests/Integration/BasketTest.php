@@ -8,6 +8,7 @@ use AcmeWidgetCo\Delivery\DeliveryCost;
 use AcmeWidgetCo\Offer\Offerings;
 use AcmeWidgetCo\Basket\Basket;
 
+// todo while this works, I probably want to use BasketFactory instead or possibly should test both
 final class BasketTest extends TestCase {
 	private static Catalog $catalog;
 	private static DeliveryCost $delivery;
@@ -21,11 +22,12 @@ final class BasketTest extends TestCase {
 	}
 
 	/**
-	 * @dataProvider dataProvider
+	 * @param array<string> $products
+	 * @dataProvider productDataProvider
 	 * @covers Basket::addProduct
 	 * @covers Basket::getTotal
 	 */
-	public function testBasketWithProducts($products, $total, $message): void { // include total calculation in name for additional context?
+	public function testBasketWithProducts(array $products, float $total, string $message): void { // include total calculation in name for additional context?
 		// use factory?
 		$basket = new Basket(self::$catalog, self::$delivery, self::$offerings);
 		foreach ($products as $product) {
@@ -34,7 +36,10 @@ final class BasketTest extends TestCase {
 		$this->assertEquals($total, $basket->getTotal(), $message);
 	}
 
-	public static function dataProvider(): array {
+	/**
+	 * @return array<array<string, mixed>>
+	 */
+	public static function productDataProvider(): array {
 		return [
 			[
 				'products' => ['B01', 'G01'],

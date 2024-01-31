@@ -12,19 +12,27 @@ namespace AcmeWidgetCo\Delivery;
  * tiers/calculations. Would be nice to have a more extensible solution.
  */
 class DeliveryCost {
+	/** @var array<array<string, float>> */
 	private array $tiers = [];
 
-	public function __construct() {
-		// load data
-		$this->tiers = [
-			['min' => 0, 'cost' => 4.95],
-			['min' => 50, 'cost' => 2.95],
-			['min' => 90, 'cost' => 0]
-		];
+	public function __construct(string $type = 'standard') {
+		// load data for $type, but since I don't have a database and can't do that, $tiers is all the data and we're only loading the particular data we want
 		// todo test boundaries
+		$tiers = [
+			'standard' => [
+				['min' => 0, 'cost' => 4.95],
+				['min' => 50, 'cost' => 2.95],
+				['min' => 90, 'cost' => 0]
+			]
+			// 'expedited' => [], ...
+		];
+		if (!isset($tiers[$type])) {
+			throw new \Exception("'{$type}' is not a valid Delivery type.");
+		}
+		$this->tiers = $tiers[$type];
 	}
 
-	public function calculateDeliveryCost($orderTotal) {
+	public function calculateDeliveryCost(float $orderTotal): float {
 		// sort array of the different tiers and their associated costs in descending order (highest first) so that the first lower limit/boundary threshold the total is above will be the tier that applies (reword) rather than having a lower and upper bounds
 		usort($this->tiers, function($a, $b) {
 			return $b['min'] <=> $a['min'];

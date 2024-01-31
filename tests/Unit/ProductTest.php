@@ -19,9 +19,9 @@ final class ProductTest extends TestCase {
 	 * @covers Product::getPrice
 	 */
 	public function testProductMethods(): void {
-		$product = new Product('Test', '01', 12.34);
+		$product = new Product('Test', 'A01', 12.34);
 		$this->assertEquals('Test', $product->getName());
-		$this->assertEquals('01', $product->getCode());
+		$this->assertEquals('A01', $product->getCode());
 		$this->assertEquals(12.34, $product->getPrice());
 	}
 }

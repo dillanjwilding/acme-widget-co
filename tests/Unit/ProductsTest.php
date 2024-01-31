@@ -15,11 +15,19 @@ final class ProductsTest extends TestCase {
 	/**
 	 * @covers Products::getProduct
 	 */
-	public function testGetProduct(): void {
+	public function testGetValidProduct(): void {
 		$product = self::$products->getProduct('R01');
 		$this->assertInstanceOf(Product::class, $product);
 		$this->assertEquals('Red Widget', $product->getName());
 		// don't really need to test getPrice() since ProductTest already does
+	}
+
+	/**
+	 * @covers Products::getProduct
+	 */
+	public function testGetInvalidProduct(): void {
+		$this->expectException(\Exception::class);
+		$product = self::$products->getProduct('A01');
 	}
 
 	/**

@@ -3,6 +3,7 @@ namespace AcmeWidgetCo\Product;
 
 // todo rename ProductManager, ProductService, ProductCatalog, something else besides Products
 class Products {
+	/** @var array<string, Product> */
 	private array $products = [];
 
 	public function __construct() {
@@ -20,12 +21,16 @@ class Products {
 		}
 	}
 
-	public function getProduct($code): Product {
-		// check isset($this->products[$code])
+	public function getProduct(string $code): Product {
+		if (!isset($this->products[$code])) {
+			throw new \Exception('Invalid product code.');
+		}
 		return $this->products[$code];
 	}
 
-	// do I need this function?
+	/**
+	 * @return array<string, Product>
+	 */
 	public function getAllProducts(): array {
 		return $this->products;
 	}
