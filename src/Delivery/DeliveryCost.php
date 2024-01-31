@@ -32,6 +32,9 @@ class DeliveryCost {
 		$this->deliveryOptions = $deliveryOptions[$type];
 	}
 
+	/**
+	 * Rounded monetary amount of total discounts so that if calculate is used to display a value to the UI, it will be a valid denomination.
+	 */
 	public function calculate(float $orderTotal): float {
 		// sort array of the different tiers and their associated costs in descending order (highest first) so that the first lower limit/boundary threshold the total is above will be the tier that applies (reword) rather than having a lower and upper bounds
 		usort($this->deliveryOptions, function($a, $b) {
@@ -41,7 +44,7 @@ class DeliveryCost {
 		if (!empty($this->deliveryOptions)) {
 			foreach ($this->deliveryOptions as $deliveryOption) {
 				if ($orderTotal >= $deliveryOption['min']) {
-					return $deliveryOption['cost'];
+					return round($deliveryOption['cost'], 2);
 				}
 			}
 		}

@@ -25,11 +25,4 @@ class Product {
 	public function getPrice(): float {
 		return $this->price;
 	}
-
-	// I don't know if this is the best approach for the:
-	//	- buy 1 red widget, get the second half off/price
-	public function applyPromotion(): void {
-		// I think I moved on from the idea of having offers/deals/promotions here... 
-		// todo remove this
-	}
 }

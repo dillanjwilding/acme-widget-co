@@ -24,6 +24,8 @@ class OfferService {
 	}
 
 	/**
+	 * Rounded monetary amount of total discounts so that if calculateTotalDiscount is used to display a value to the UI, it will be a valid denomination.
+	 * 
 	 * @param array<string, Item> $items
 	 */
 	public function calculateTotalDiscount(array $items): float {
@@ -35,6 +37,7 @@ class OfferService {
 				}
 			}
 		}
+		$offset = round($offset, 2);
 		return $offset;
 	}
 }

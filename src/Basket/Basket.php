@@ -12,7 +12,6 @@ class Basket {
 	/** @var array<string, Item> */
 	private array $items;
 
-	// todo add parameter types
 	public function __construct(Catalog $catalog, DeliveryCost $deliveryCost, OfferService $offerService) {
 		$this->catalog = $catalog;
 		$this->deliveryCost = $deliveryCost;
