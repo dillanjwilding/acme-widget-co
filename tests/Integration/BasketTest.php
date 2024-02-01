@@ -2,8 +2,8 @@
 namespace Tests\Integration;
 
 use PHPUnit\Framework\TestCase;
-use AcmeWidgetCo\Product\ProductService;
 use AcmeWidgetCo\Catalog\Catalog;
+use AcmeWidgetCo\Catalog\CatalogFactory;
 use AcmeWidgetCo\Basket\Basket;
 use AcmeWidgetCo\Basket\BasketFactory;
 
@@ -11,8 +11,7 @@ final class BasketTest extends TestCase {
 	private static Catalog $catalog;
 
 	public static function setUpBeforeClass(): void {
-		$productService = new ProductService();
-		self::$catalog = new Catalog($productService);
+		self::$catalog = CatalogFactory::create();
 	}
 
 	/**

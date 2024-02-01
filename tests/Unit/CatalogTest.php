@@ -5,13 +5,13 @@ use PHPUnit\Framework\TestCase;
 use AcmeWidgetCo\Product\ProductService;
 use AcmeWidgetCo\Product\Product;
 use AcmeWidgetCo\Catalog\Catalog;
+use AcmeWidgetCo\Catalog\CatalogFactory;
 
 final class CatalogTest extends TestCase {
 	private static Catalog $catalog;
 
 	public static function setUpBeforeClass(): void {
-		$productService = new ProductService();
-		self::$catalog = new Catalog($productService);
+		self::$catalog = CatalogFactory::create();
 	}
 
 	/**

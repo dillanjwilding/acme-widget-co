@@ -92,7 +92,7 @@ Implement basket which needs to have the following:
 I tried to take small iterations and explain my thoughts in comments along the way. At first my thoughts were around how I could create interfaces and a hierarchy of classes but then I thought how often that's used to scale software and I found that often the best approach for building software that scales is to build something that works for the most cases and tools for non-developers to maintain it, thus I removed my classes for different delivery options and offers and opted for a solution that could be easily stored in the database and expanded upon for more functionality. My first commit was a bit of a brain dump where I was trying to get as much implemented in as little time as possible, then incremental improvements.
 
 Notes:
- - Coming up with applicable names was tough, I'm still not happy with them but at some point I have to call this project done and submit it.
+ - Coming up with applicable names was tough.
 
 ## Structure
 
@@ -106,7 +106,8 @@ Notes:
  - `ProductService` Manages `Product` that are available.
 
 Notes:
-
+ - No dependencies other than those required by problem definition (i.e. PHPUnit and PHPStan).
+   - My approach would be different based on frameworks and libraries, or even a slight variation with the introduction of a database. The `Service` classes could be replaced by PDO `Repository` classes as they are really only for facilitating getting data, etc.
  - I think that `Offer` should have a start date and end date, possibly a display ID or name, etc but it seems overly complicated for a proof of concept so I kept it on the simple side.
  - To make it so that we wouldn't need a new class for every new offer as that has more developer overhead than adding a record to a database, my implementation geared more toward that type of reuse but it has limitations.
    - One of my previous iterations I was thinking about the concept of `$condition` and `$discount` being functions. While that was very flexible, I imagined needing to write code for every new offer and thought that was going to be a burden on developers whereas building a system based off the database and administration tools for an internal user to manage the deals would be less overhead.
