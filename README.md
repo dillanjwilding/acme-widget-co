@@ -89,7 +89,7 @@ Implement basket which needs to have the following:
 
 ## Approach
 
-I tried to take small iterations and explain my thoughts in comments along the way. At first my thoughts were around how I could create interfaces and a hierarchy of classes but then I thought how often that's used to scale software and I found that often the best approach for building software that scales is to build something that works for the most cases and tools for non-developers to maintain it, thus I removed my classes for different delivery options and offers and opted for a solution that could be easily stored in the database and expanded upon for more functionality.
+I tried to take small iterations and explain my thoughts in comments along the way. At first my thoughts were around how I could create interfaces and a hierarchy of classes but then I thought how often that's used to scale software and I found that often the best approach for building software that scales is to build something that works for the most cases and tools for non-developers to maintain it, thus I removed my classes for different delivery options and offers and opted for a solution that could be easily stored in the database and expanded upon for more functionality. My first commit was a bit of a brain dump where I was trying to get as much implemented in as little time as possible, then incremental improvements.
 
 Notes:
  - Coming up with applicable names was tough, I'm still not happy with them but at some point I have to call this project done and submit it.
@@ -116,7 +116,8 @@ Notes:
 
 The proof of concept implementation didn't require these components but they are usually part of products and services:
 
- - Add the mechanism to have `ProductService` be able to contain a subset of available `Product` rather than all of them so that you could have multiple Catalogs with different lists of `Product` options.
+ - Add the mechanism to have multiple `Catalogs` with different subsets or lists of `Product` options.
+   - There are a couple different ways you could implement this. I think you'd probably need a mapping table.
  - Database and connections
  - Multiple services and/or containers
  - Managing development and production environments, dependencies, etc

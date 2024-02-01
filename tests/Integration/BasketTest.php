@@ -7,7 +7,6 @@ use AcmeWidgetCo\Catalog\Catalog;
 use AcmeWidgetCo\Basket\Basket;
 use AcmeWidgetCo\Basket\BasketFactory;
 
-// todo while this works, I probably want to use BasketFactory instead or possibly should test both
 final class BasketTest extends TestCase {
 	private static Catalog $catalog;
 

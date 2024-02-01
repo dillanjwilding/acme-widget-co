@@ -23,7 +23,6 @@ class Catalog {
 	 * requests.
 	 */
 	public function __construct(ProductService $productService) {
-		// @todo: rename products to something else as it's not an array of Product objects but a product manager
 		$this->productService = $productService;
 		//$this->products = $this->productService->getAllProducts(); 
 	}

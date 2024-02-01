@@ -17,7 +17,12 @@ class DeliveryCost {
 
 	public function __construct(string $type = 'standard') {
 		// load data for $type, but since I don't have a database and can't do that, $tiers is all the data and we're only loading the particular data we want
-		// todo test boundaries
+		/**
+		 * I inverted the tier thresholds, my interpretation was:
+		 *  - "orders under $50 cost $4.95" => $0 - $49.99 cost $4.95
+		 *  - "orders under $90, delivery cost $2.95" => $50 - $89.99 cost $2.95
+		 *  - "orders of $90 or more have free delivery" => self explanatory
+		 */
 		$deliveryOptions = [
 			'standard' => [
 				['min' => 0, 'cost' => 4.95],
