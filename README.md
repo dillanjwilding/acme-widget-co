@@ -112,6 +112,7 @@ Notes:
  - To make it so that we wouldn't need a new class for every new offer as that has more developer overhead than adding a record to a database, my implementation geared more toward that type of reuse but it has limitations.
    - One of my previous iterations I was thinking about the concept of `$condition` and `$discount` being functions. While that was very flexible, I imagined needing to write code for every new offer and thought that was going to be a burden on developers whereas building a system based off the database and administration tools for an internal user to manage the deals would be less overhead.
  - If there is an `Offer` "record", it is active. Normally we'd want to have a duration which they are valid and possibly have a way to deactivate an offer, with this implementation you'd have to delete the record.
+ - Why does only `Offer` have an interface? Because most of the other concepts are build to handle all cases, I added `OfferInterface` because I realized that while I made my `Offer` class (now `BuyOneGetOne`) handle most cases, they are most cases of a specific type of offer and we may want to add other offer types later.
 
 ## Future Development
 
