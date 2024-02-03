@@ -19,7 +19,7 @@ class OfferService {
 			]
 		];
 		foreach ($offers as $offer) {
-			$this->offers[] = new Offer($offer['discount_rate'], $offer['offer_product'], $offer['discounted_product']);
+			$this->offers[] = new BuyOneGetOne($offer['discount_rate'], $offer['offer_product'], $offer['discounted_product']);
 		}
 	}
 
