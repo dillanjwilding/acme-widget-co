@@ -24,10 +24,7 @@ FROM base as development
 WORKDIR /var/www/html
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 COPY --from=dev-deps --chown=www-data:www-data app/vendor/ /var/www/html/vendor
-COPY --chown=www-data:www-data ./tests /var/www/html/tests
-COPY --chown=www-data:www-data ./phpunit.xml /var/www/html
-COPY --chown=www-data:www-data ./phpstan.neon /var/www/html
-COPY . .
+COPY --chown=www-data:www-data . .
 
 FROM base as final
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
